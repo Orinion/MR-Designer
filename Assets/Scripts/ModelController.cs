@@ -430,7 +430,7 @@ public class ModelController : MonoBehaviour
             {
                 int i = getClosest(p);
                 var c = verticies[i];
-                if ((p - c).magnitude < 0.1f)
+                if ((p - c).magnitude < 0.05f)
                     verticies[i] = p;
                 UpdateMesh();
             }
@@ -443,7 +443,7 @@ public class ModelController : MonoBehaviour
             {
                 int i = getClosest(p);
                 var c = verticies[i];
-                if((p-c).magnitude < 0.1f)
+                if((p-c).magnitude < 0.03f)
                 {
                     if (!selectedNodes.Contains(i) && selectedNodes.Count < 4)
                     {
