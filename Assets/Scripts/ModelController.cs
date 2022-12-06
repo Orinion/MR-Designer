@@ -5,6 +5,7 @@ using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using Unity.XR.CoreUtils;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -15,31 +16,48 @@ public class ModelController : MonoBehaviour
     public MeshEditMode mode = MeshEditMode.Initial;
     XRSimpleInteractable interactable;
 
-    private Transform currentInteractor;
-    private GameObject previewNode;
-    [SerializeField]
-    private GameObject previewNodePrefab;
-
     List<Vector3> verticies = new();
+    List<Triangle> triangles = new();
+
     public int vCount => verticies.Count;
 
-    public TMP_Text InfoText;
 
-    // each Triangle is storred as 3 vertex indices.
-    List<Triangle> triangles = new();
+    [SerializeField]
+    private GameObject previewNodePrefab;
+    [SerializeField]
+    private TMP_Text InfoText;
+    [SerializeField]
+    private Color selectedColor;
+    private Material selectedMaterial;
+    private Material defaultMaterial;
+    [SerializeField]
+    private Material lineMaterial;
+
+    private Transform currentInteractor;
+    private GameObject previewNode;
+
+
+    // markers for single nodes
+    private Dictionary<int, GameObject> singleNodes = new();
+    // selected nodes for triangle
+    private List<int> selectedNodes = new();
+    private List<LineRenderer> previewLines = new();
+
 
     public void SetMode(int newMode)
     {
-        if (mode.Equals(MeshEditMode.Initial) && newMode != 3) return;
+        if (mode.Equals(MeshEditMode.Initial) && newMode != (int)MeshEditMode.DeleteNode) return;
         mode = (MeshEditMode)newMode;
     }
 
     public enum MeshEditMode
     {
         Initial,  // Less than 4 nodes, just add new nodes to create initial 3D Object
-        AddNode,  // Adds node to closest Face
+        AddNode,  // Adds node without connecting
+        AddNodeAndFace, // Adds Node and add to closest Face
+        AddTriangle, // Connect 3 Verticies to create a Triangle
         MoveNode, // Grab/Move closest Node
-        DeleteNode// Delete closest Node
+        DeleteNode,// Delete closest Node
     }
 
     public class Triangle
@@ -100,7 +118,7 @@ public class ModelController : MonoBehaviour
         Vector3 sum = Vector3.zero;
         foreach(var v in vectors)
             sum += v;
-        return sum/indicies.Length;
+        return sum / indicies.Length;
     }
 
     private Vector3 getCenter(Triangle t)
@@ -110,8 +128,9 @@ public class ModelController : MonoBehaviour
 
     private void UpdateMesh()
     {
+        model.Clear();
         model.vertices = verticies.ToArray();
-        model.triangles = triangles.SelectMany(x => x.ToDoubleArray()).ToArray(); // convert list to single array
+        model.triangles = triangles.SelectMany(x => x.ToDoubleArray()).ToArray(); // convert list of arrays to single array
     }
 
     private void AddTriangleInitial()
@@ -190,6 +209,17 @@ public class ModelController : MonoBehaviour
         Assert.IsFalse(verticies.Contains(position), "Verticy already exists!");
         verticies.Add(position);
 
+        var nodePrefab = Instantiate(previewNodePrefab, transform);
+        nodePrefab.transform.position = position;
+        singleNodes.Add(IndexOf(position),nodePrefab);
+
+        UpdateMesh();
+    }
+
+    public void AddNodeAndConnect(Vector3 position)
+    {
+        AddNode(position);
+
         if (vCount <= 4)
         {
             AddTriangleInitial();
@@ -215,6 +245,21 @@ public class ModelController : MonoBehaviour
 
     public void RemoveNode(int index)
     {
+        if(singleNodes.ContainsKey(index))
+        {
+            Destroy(singleNodes[index]);
+            singleNodes.Remove(index);
+
+            foreach(int i in singleNodes.Keys.ToArray())
+            {
+                if (i < index)
+                    continue;
+                singleNodes[i - 1] = singleNodes[i];
+                singleNodes.Remove(i);
+            }
+
+        }
+
         List<Triangle> triangles_old = triangles.FindAll(x => x.Contains(index));
 
         HashSet<int> neighbors = new();
@@ -237,7 +282,6 @@ public class ModelController : MonoBehaviour
                     triangles.Add(new Triangle(n1, n2, n3));
                 }
 
-
         foreach (Triangle triangle in triangles_old)
             triangles.Remove(triangle);
         verticies.Remove(verticies[index]);
@@ -252,18 +296,17 @@ public class ModelController : MonoBehaviour
         if (currentInteractor) return;
         currentInteractor = interactor.transform;
 
-        Debug.Log("Enter " + interactor.transform.name);
         switch (mode)
         {
             case MeshEditMode.Initial:
             case MeshEditMode.AddNode:
-                previewNode = Instantiate(previewNodePrefab);
+            case MeshEditMode.AddNodeAndFace:
+            case MeshEditMode.DeleteNode:
+                
+                previewNode = Instantiate(previewNodePrefab, transform);
                 break;
             case MeshEditMode.MoveNode:
                 // get closest node+offset
-                break;
-            case MeshEditMode.DeleteNode:
-                previewNode = Instantiate(previewNodePrefab);
                 break;
             default:
                 break;
@@ -279,25 +322,54 @@ public class ModelController : MonoBehaviour
         else
             return;
 
-        Debug.Log("Exit " + interactor.transform.name);
         var position = interactor.transform.position;
 
-        if (previewNode)
-            Destroy(previewNode);
 
         switch (mode)
         {
             case MeshEditMode.Initial:
+            case MeshEditMode.AddNodeAndFace:
+                AddNodeAndConnect(position);
+                break;
             case MeshEditMode.AddNode:
                 AddNode(position);
                 break;
             case MeshEditMode.DeleteNode:
                 RemoveNode(getClosest(position));
+                if (verticies.Count == 0)
+                {
+                    // Cancel Delete
+                    mode = MeshEditMode.Initial;
+                }
                 break;
+            case MeshEditMode.AddTriangle:
+                if(selectedNodes.Count == 3)
+                {
+                    triangles.Add(new Triangle(selectedNodes.ToArray()));
+                    UpdateMesh();
+                }
+                if (selectedNodes.Count == 4)
+                {
+                    triangles.Add(new Triangle(selectedNodes.GetRange(0,3).ToArray()));
+                    triangles.Add(new Triangle(selectedNodes.GetRange(1,3).ToArray()));
+                    //foreach (var node in selectedNodes)
+                    //{
+                    //    var others = selectedNodes.FindAll(n=> n != node);
+                    //    triangles.Add(new Triangle(others.ToArray()));
+                    //}
+                    UpdateMesh();
+                }
+                foreach (var node in selectedNodes)
+                    singleNodes[node].GetComponentInChildren<MeshRenderer>().sharedMaterial = defaultMaterial;                
+                    break;
             default:
                 break;
         }
-     
+        foreach (var l in previewLines)
+            l.enabled = false;
+        if (previewNode)
+            Destroy(previewNode);
+        selectedNodes.Clear();
     }
 
     public void ResetModel()
@@ -306,6 +378,9 @@ public class ModelController : MonoBehaviour
         currentInteractor = null;
         if (previewNode)
             Destroy(previewNode);
+        foreach (var node in singleNodes.Values)
+            Destroy(node);
+        singleNodes.Clear();
         verticies = new List<Vector3>();
         triangles = new List<Triangle>();
         UpdateMesh();
@@ -321,20 +396,30 @@ public class ModelController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        InfoText.text = string.Format("Mode: {0} \n V: {1} T: {2}", mode.ToString(), vCount, triangles.Count);
+        InfoText.text = string.Format("M: {0} \n V: {1} T: {2} S: {3}", mode.ToString(), vCount, triangles.Count, selectedNodes.Count );
 
+        foreach (var it in singleNodes)
+            it.Value.transform.position = verticies[it.Key];
+
+        
         if (currentInteractor)
         {
             var p = currentInteractor.position;
             
-            if (mode == MeshEditMode.AddNode || mode == MeshEditMode.Initial)
+            if (mode == MeshEditMode.AddNodeAndFace || mode == MeshEditMode.Initial)
             {
-                if (previewNode && (mode == MeshEditMode.AddNode || mode == MeshEditMode.Initial))
+                if (previewNode)
                     previewNode.transform.position = p;
                 var c = get3Closest(p);
                 if(c.Length > 0)
-                    foreach (var i in get3Closest(p))
-                        Debug.DrawLine(p, verticies[i], Color.yellow, 50, false);
+                {
+                    for (int j = 0; j < c.Length; j++)
+                    {
+                        var lr = previewLines[j];
+                        lr.enabled = true;
+                        lr.SetPositions(new Vector3[] { p, verticies[c[j]] });
+                    }
+                }                       
             }
             if (mode == MeshEditMode.DeleteNode && previewNode)
             {
@@ -343,8 +428,39 @@ public class ModelController : MonoBehaviour
             }
             if (mode == MeshEditMode.MoveNode)
             {
-                verticies[getClosest(p)] = p;
+                int i = getClosest(p);
+                var c = verticies[i];
+                if ((p - c).magnitude < 0.1f)
+                    verticies[i] = p;
                 UpdateMesh();
+            }
+            if (mode == MeshEditMode.AddNode)
+            {
+                if (previewNode)
+                    previewNode.transform.position = p;
+            }
+            if (mode == MeshEditMode.AddTriangle)
+            {
+                int i = getClosest(p);
+                var c = verticies[i];
+                if((p-c).magnitude < 0.1f)
+                {
+                    if (!selectedNodes.Contains(i) && selectedNodes.Count < 4)
+                    {
+                        selectedNodes.Add(i);
+                        singleNodes[i].GetComponentInChildren<MeshRenderer>().sharedMaterial = selectedMaterial;
+                    }
+                }
+
+                if(selectedNodes.Count>0)
+                    for (int j = 0; j < selectedNodes.Count; j++)
+                    {
+                        var lr = previewLines[j];
+                        lr.enabled = true;
+                        //lr.transform.position = p;
+                        //lr.transform.LookAt(verticies[selectedNodes[j]]);
+                        lr.SetPositions(new Vector3[] { p, verticies[selectedNodes[j]] });                    
+                    }
             }
         }
     }
@@ -352,6 +468,21 @@ public class ModelController : MonoBehaviour
     private void OnEnable()
     {
         model = GetComponent<MeshFilter>().mesh;
+
+        defaultMaterial = previewNodePrefab.GetComponentInChildren<MeshRenderer>().sharedMaterial;
+        selectedMaterial = new Material(defaultMaterial);
+        selectedMaterial.color = selectedColor;
+
+        for(int i=1;i<=4;i++)
+        {
+            var l = new GameObject("LineRenderer " + i);
+            l.transform.parent = transform;
+            var lr = l.AddComponent<LineRenderer>();
+            lr.enabled = false;
+            lr.widthMultiplier = 0.01f;
+            previewLines.Add(lr);
+        }
+
         interactable = GetComponent<XRSimpleInteractable>();
         interactable.selectEntered.AddListener(SelectEnter);
         interactable.selectExited.AddListener(SelectExit);
@@ -367,6 +498,7 @@ public class ModelController : MonoBehaviour
                           x.ElementAt(2).elem
             )).ToList();
         // Todo fix duplicate verticies
+
         if (vCount > 3)
             mode = MeshEditMode.AddNode; // leave initial mode;
     }

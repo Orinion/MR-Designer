@@ -14,10 +14,10 @@ GameObject:
   - component: {fileID: 8511984317625586607}
   - component: {fileID: 8511984317625586640}
   - component: {fileID: 7194738468384409920}
-  - component: {fileID: 8831937472347750743}
-  m_Layer: 0
+  - component: {fileID: 678907534}
+  m_Layer: 3
   m_Name: 3D-Model
-  m_TagString: Untagged
+  m_TagString: Model
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -49,6 +49,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43d32e7c471a6fe479499296df628389, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mode: 0
+  previewNodePrefab: {fileID: 6574899578299373057, guid: d5949ebca973b5347a0548153dc569fc, type: 3}
   InfoText: {fileID: 0}
 --- !u!114 &8511984317625586606
 MonoBehaviour:
@@ -151,7 +153,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 712d04cb7d663304d8879ab9a3cf7440, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -180,7 +182,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8511984317625586642}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 0}
 --- !u!54 &7194738468384409920
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -190,15 +192,15 @@ Rigidbody:
   m_GameObject: {fileID: 8511984317625586642}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_Drag: 100
+  m_AngularDrag: 100
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!64 &8831937472347750743
-MeshCollider:
+--- !u!136 &678907534
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -207,7 +209,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Radius: 10
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}

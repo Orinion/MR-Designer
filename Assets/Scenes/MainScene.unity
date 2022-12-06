@@ -128,31 +128,12 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8511984317625586605, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
   m_PrefabInstance: {fileID: 8511984317549609071}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 678907527}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 43d32e7c471a6fe479499296df628389, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &678907527 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8511984317625586642, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
-  m_PrefabInstance: {fileID: 8511984317549609071}
-  m_PrefabAsset: {fileID: 0}
---- !u!136 &678907534
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 678907527}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 10
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -269,6 +250,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: XR Setup
       objectReference: {fileID: 0}
+    - target: {fileID: 3560388296707692966, guid: 5591b891d59ded848a4be51f06aa0110, type: 3}
+      propertyPath: triggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 486101954}
+    - target: {fileID: 3671886967182776837, guid: 5591b891d59ded848a4be51f06aa0110, type: 3}
+      propertyPath: triggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 486101954}
     - target: {fileID: 7847690596708807460, guid: 5591b891d59ded848a4be51f06aa0110, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -406,6 +395,42 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1415745422}
     - target: {fileID: 8511984317625586605, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
+      propertyPath: lineMaterial
+      value: 
+      objectReference: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 8511984317625586605, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
+      propertyPath: selectedColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8511984317625586605, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
+      propertyPath: selectedColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8511984317625586605, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
+      propertyPath: selectedColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8511984317625586605, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
+      propertyPath: selectedColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8511984317625586605, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
+      propertyPath: selectedCoolor.a
+      value: 0.92941177
+      objectReference: {fileID: 0}
+    - target: {fileID: 8511984317625586605, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
+      propertyPath: selectedCoolor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8511984317625586605, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
+      propertyPath: selectedCoolor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8511984317625586605, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
+      propertyPath: selectedCoolor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8511984317625586605, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
       propertyPath: previewNodePrefab
       value: 
       objectReference: {fileID: 6574899578299373057, guid: d5949ebca973b5347a0548153dc569fc, type: 3}
@@ -416,11 +441,11 @@ PrefabInstance:
     - target: {fileID: 8511984317625586607, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 712d04cb7d663304d8879ab9a3cf7440, type: 2}
+      objectReference: {fileID: 2100000, guid: ea51101070fb1ba46beedd4b7dee84ff, type: 2}
     - target: {fileID: 8511984317625586640, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
     - target: {fileID: 8511984317625586642, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
       propertyPath: m_Name
       value: 3D-Model
