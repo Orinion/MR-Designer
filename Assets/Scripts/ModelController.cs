@@ -480,6 +480,7 @@ public class ModelController : MonoBehaviour
             var lr = l.AddComponent<LineRenderer>();
             lr.enabled = false;
             lr.widthMultiplier = 0.01f;
+            lr.material = lineMaterial;
             previewLines.Add(lr);
         }
 
