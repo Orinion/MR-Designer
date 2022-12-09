@@ -123,45 +123,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &98519590 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5151358825658538553, guid: 5591b891d59ded848a4be51f06aa0110, type: 3}
-  m_PrefabInstance: {fileID: 6163228490251499782}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &98519592
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 98519590}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5571a271ecd46a64ba60172f166f3d13, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  triggerTreshhold: 1
-  triggerEnterEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8511984317625586605, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
-        m_TargetAssemblyTypeName: ModelController, Assembly-CSharp
-        m_MethodName: ResetModel
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &486101954 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8511984317625586605, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
   m_PrefabInstance: {fileID: 8511984317549609071}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1511606178}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 43d32e7c471a6fe479499296df628389, type: 3}
@@ -272,6 +239,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1511606178 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8511984317625586642, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
+  m_PrefabInstance: {fileID: 8511984317549609071}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6163228490251499782
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -279,15 +251,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 98519592, guid: 5591b891d59ded848a4be51f06aa0110, type: 3}
+      propertyPath: triggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1511606178}
     - target: {fileID: 3528427842983484090, guid: 5591b891d59ded848a4be51f06aa0110, type: 3}
       propertyPath: m_Name
       value: XR Setup
       objectReference: {fileID: 0}
     - target: {fileID: 3560388296707692966, guid: 5591b891d59ded848a4be51f06aa0110, type: 3}
-      propertyPath: triggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 486101954}
-    - target: {fileID: 3671886967182776837, guid: 5591b891d59ded848a4be51f06aa0110, type: 3}
       propertyPath: triggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 486101954}
@@ -339,6 +311,14 @@ PrefabInstance:
       propertyPath: triggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 486101954}
+    - target: {fileID: 8154761595640598651, guid: 5591b891d59ded848a4be51f06aa0110, type: 3}
+      propertyPath: triggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 486101954}
+    - target: {fileID: 8154761595640598651, guid: 5591b891d59ded848a4be51f06aa0110, type: 3}
+      propertyPath: triggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ResetModel
+      objectReference: {fileID: 0}
     - target: {fileID: 8154761596173744819, guid: 5591b891d59ded848a4be51f06aa0110, type: 3}
       propertyPath: triggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -351,8 +331,7 @@ PrefabInstance:
       propertyPath: triggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 486101954}
-    m_RemovedComponents:
-    - {fileID: 3671886967182776837, guid: 5591b891d59ded848a4be51f06aa0110, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5591b891d59ded848a4be51f06aa0110, type: 3}
 --- !u!114 &6163228490251499783 stripped
 MonoBehaviour:
@@ -475,7 +454,7 @@ PrefabInstance:
     - target: {fileID: 8511984317625586607, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: ea51101070fb1ba46beedd4b7dee84ff, type: 2}
+      objectReference: {fileID: 2100000, guid: 712d04cb7d663304d8879ab9a3cf7440, type: 2}
     - target: {fileID: 8511984317625586640, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
       propertyPath: m_Mesh
       value: 

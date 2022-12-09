@@ -8,6 +8,7 @@ using Unity.XR.CoreUtils;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.UIElements;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class ModelController : MonoBehaviour
@@ -20,7 +21,7 @@ public class ModelController : MonoBehaviour
     List<Triangle> triangles = new();
 
     public int vCount => verticies.Count;
-
+    public float interactionDistance = 0.03f;
 
     [SerializeField]
     private GameObject previewNodePrefab;
@@ -165,7 +166,7 @@ public class ModelController : MonoBehaviour
         return IndexOf(sotrtedByDistance[0]);
     }
 
-    private int[] getClosestTriangle(Vector3 position)
+    private Triangle getClosestTriangle(Vector3 position)
     {
         int DistanceToPosition(Triangle t, Triangle t2)
         {
@@ -180,9 +181,9 @@ public class ModelController : MonoBehaviour
         }
         var sotrtedByDistance = triangles.ToList();
         if (triangles.Count == 0)
-            return new int[0];
+            return null;
         sotrtedByDistance.Sort(DistanceToPosition);
-        return sotrtedByDistance[0].ToArray();
+        return sotrtedByDistance[0];
     }
 
     private int[] get3Closest(Vector3 position)
@@ -230,9 +231,13 @@ public class ModelController : MonoBehaviour
             mode = MeshEditMode.AddNode; // leave initial mode;
               
         var p = IndexOf(position);
-        int[] closest3 = getClosestTriangle(position); // try to find the closest face
-        if(closest3.Length==3)
-            triangles.Remove(new Triangle(closest3[0], closest3[1], closest3[2])); // Remove
+        var t = getClosestTriangle(position); // try to find the closest face
+        int[] closest3 = null;
+        if(t != null) 
+        {
+            triangles.Remove(t); // Remove
+            closest3 = t.ToArray();
+        }            
         else
             closest3 = get3Closest(position); // else get 3 closest verticies to position as index
 
@@ -335,10 +340,24 @@ public class ModelController : MonoBehaviour
                 AddNode(position);
                 break;
             case MeshEditMode.DeleteNode:
-                RemoveNode(getClosest(position));
+                var c = getClosest(position);
+                var pc = (verticies[c]  - position).magnitude;
+                var t = getClosestTriangle(position);
+                if(t == null || pc < (getCenter(t) - position).magnitude) // Node closer than triangle?
+                {
+                    if (pc < interactionDistance*2)
+                        RemoveNode(c);
+                }                    
+                else
+                {
+                    if ((getCenter(t) - position).magnitude < interactionDistance*2)
+                        triangles.Remove(t);
+                }
+                UpdateMesh();
+
                 if (verticies.Count == 0)
                 {
-                    // Cancel Delete
+                    // Cancel Delete Mode
                     mode = MeshEditMode.Initial;
                 }
                 break;
@@ -351,12 +370,7 @@ public class ModelController : MonoBehaviour
                 if (selectedNodes.Count == 4)
                 {
                     triangles.Add(new Triangle(selectedNodes.GetRange(0,3).ToArray()));
-                    triangles.Add(new Triangle(selectedNodes.GetRange(1,3).ToArray()));
-                    //foreach (var node in selectedNodes)
-                    //{
-                    //    var others = selectedNodes.FindAll(n=> n != node);
-                    //    triangles.Add(new Triangle(others.ToArray()));
-                    //}
+                    triangles.Add(new Triangle(new int[] { selectedNodes[0], selectedNodes[2], selectedNodes[3] }));
                     UpdateMesh();
                 }
                 foreach (var node in selectedNodes)
@@ -424,13 +438,17 @@ public class ModelController : MonoBehaviour
             if (mode == MeshEditMode.DeleteNode && previewNode)
             {
                 var pd = verticies[getClosest(p)]; // get position of closest verticy
-                previewNode.transform.position = pd;
+                var pt = getCenter(getClosestTriangle(p));// get position of closest triangle
+                if (pt != null && (pt - p).magnitude < (pd - p).magnitude) // Node closer or triangle?
+                    previewNode.transform.position = pt;
+                else
+                    previewNode.transform.position = pt;
             }
             if (mode == MeshEditMode.MoveNode)
             {
                 int i = getClosest(p);
                 var c = verticies[i];
-                if ((p - c).magnitude < 0.05f)
+                if ((p - c).magnitude < interactionDistance*2)
                     verticies[i] = p;
                 UpdateMesh();
             }
@@ -443,7 +461,7 @@ public class ModelController : MonoBehaviour
             {
                 int i = getClosest(p);
                 var c = verticies[i];
-                if((p-c).magnitude < 0.03f)
+                if((p-c).magnitude < interactionDistance)
                 {
                     if (!selectedNodes.Contains(i) && selectedNodes.Count < 4)
                     {
