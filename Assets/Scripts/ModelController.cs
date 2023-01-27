@@ -626,7 +626,7 @@ public class ModelController : MonoBehaviour
                 if ((p - c).magnitude < interactionDistance * 2)
                 {
                     verticies[i] = p;
-                    singleNodes[i].Value.transform.position = p;
+                    singleNodes[i].transform.position = p;
                 }
 
                 UpdateMesh();
