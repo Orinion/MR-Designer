@@ -1,10 +1,13 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
+/// <summary>
+/// Triggers UnityEvent when a controller enters the trigger.
+/// Attach this component to a GameObject with a collider configured to be a trigger.
+/// There is also visual feedback of pushing the attached button.
+/// Listeners for the event can be added in the inspector. 
+/// </summary>
 public class TriggerListener : MonoBehaviour
 {
     private bool pressed = false;

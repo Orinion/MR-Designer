@@ -351,14 +351,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 7194738468384409920, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
-      propertyPath: m_Drag
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 7194738468384409920, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
-      propertyPath: m_AngularDrag
-      value: 100
-      objectReference: {fileID: 0}
     - target: {fileID: 8511984317625586604, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -408,26 +400,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1415745422}
     - target: {fileID: 8511984317625586605, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
-      propertyPath: lineMaterial
-      value: 
-      objectReference: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
-    - target: {fileID: 8511984317625586605, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
-      propertyPath: selectedColor.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8511984317625586605, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
-      propertyPath: selectedColor.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8511984317625586605, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
-      propertyPath: selectedColor.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8511984317625586605, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
-      propertyPath: selectedColor.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8511984317625586605, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
       propertyPath: selectedCoolor.a
       value: 0.92941177
       objectReference: {fileID: 0}
@@ -443,10 +415,6 @@ PrefabInstance:
       propertyPath: selectedCoolor.r
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 8511984317625586605, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
-      propertyPath: previewNodePrefab
-      value: 
-      objectReference: {fileID: 6574899578299373057, guid: d5949ebca973b5347a0548153dc569fc, type: 3}
     - target: {fileID: 8511984317625586606, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
       propertyPath: m_InteractionManager
       value: 
@@ -455,10 +423,6 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 712d04cb7d663304d8879ab9a3cf7440, type: 2}
-    - target: {fileID: 8511984317625586640, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
     - target: {fileID: 8511984317625586642, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
       propertyPath: m_Name
       value: 3D-Model

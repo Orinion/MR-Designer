@@ -1,11 +1,13 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
+/// <summary>
+/// Triggers UnityEvent when a controller is inside the trigger for the specified time.
+/// Attach this component to a GameObject with a collider configured to be a trigger.
+/// There is also visual feedback of pushing the attached button.
+/// Listeners for the event can be added in the inspector.
+/// </summary>
 public class TriggerHoldListener : MonoBehaviour
 {
     private bool pressed = false;
