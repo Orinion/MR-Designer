@@ -50,8 +50,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mode: 0
+  interactionDistance: 0.03
   previewNodePrefab: {fileID: 6574899578299373057, guid: d5949ebca973b5347a0548153dc569fc, type: 3}
   InfoText: {fileID: 0}
+  selectedColor: {r: 0, g: 0.10232115, b: 1, a: 1}
+  lineMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!114 &8511984317625586606
 MonoBehaviour:
   m_ObjectHideFlags: 0

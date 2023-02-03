@@ -263,6 +263,14 @@ PrefabInstance:
       propertyPath: triggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 486101954}
+    - target: {fileID: 6163228488848602760, guid: 5591b891d59ded848a4be51f06aa0110, type: 3}
+      propertyPath: m_fontSize
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6163228488848602760, guid: 5591b891d59ded848a4be51f06aa0110, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7847690596708807460, guid: 5591b891d59ded848a4be51f06aa0110, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -399,6 +407,26 @@ PrefabInstance:
       propertyPath: InfoText
       value: 
       objectReference: {fileID: 1415745422}
+    - target: {fileID: 8511984317625586605, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
+      propertyPath: lineMaterial
+      value: 
+      objectReference: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 8511984317625586605, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
+      propertyPath: selectedColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8511984317625586605, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
+      propertyPath: selectedColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8511984317625586605, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
+      propertyPath: selectedColor.g
+      value: 0.10232115
+      objectReference: {fileID: 0}
+    - target: {fileID: 8511984317625586605, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
+      propertyPath: selectedColor.r
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8511984317625586605, guid: b87dd1212cf24094e8dbba9e89ac26f2, type: 3}
       propertyPath: selectedCoolor.a
       value: 0.92941177
